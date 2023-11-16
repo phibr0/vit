@@ -6,7 +6,7 @@ import { Text, View } from 'react-native';
 export default function ModalScreen() {
   return (
     <View className="">
-      <Text className="">Modal</Text>
+      <Text className="">Profile</Text>
 
       <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
     </View>

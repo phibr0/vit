@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Link } from 'expo-router';
+import { AntDesign } from '@expo/vector-icons';
 import {
   Image,
   SafeAreaView,
@@ -13,10 +15,14 @@ export default function TabOneScreen() {
   return (
     <SafeAreaView>
       <View className="flex flex-col h-full w-full justify-center items-center">
-        <View>
-          <Text>Profil</Text>
-          <Text>Level</Text>
-          <Text>Einstellungen</Text>
+        <View className="px-4 flex justify-between flex-row w-full items-center">
+          <Link href="/profile">
+            <AntDesign name="user" size={24} color="black" />
+          </Link>
+          <Text>50</Text>
+          <Text>
+            <AntDesign name="setting" size={24} color="black" />
+          </Text>
         </View>
         <Image
           width={500}
