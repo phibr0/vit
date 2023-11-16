@@ -1,11 +1,10 @@
 import { StyleSheet } from 'react-native';
 import { Text, View } from 'react-native';
 
-export default function TabTwoScreen() {
+export default function TabOneScreen() {
   return (
     <View className=''>
-      <Text className='text-2xl font-bold text-red-900'>Two</Text>
+      <Text className=''>healthscore</Text>     
     </View>
   );
 }
-

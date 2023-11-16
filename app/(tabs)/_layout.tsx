@@ -2,34 +2,53 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs } from 'expo-router';
 import { Pressable, useColorScheme } from 'react-native';
 import Colors from '../../constants/Colors';
-
+import { AntDesign } from '@expo/vector-icons';
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+
 
 export default function TabLayout() {
   return (
     <Tabs>
       <Tabs.Screen
-        name="index"
+        name="challenges"
         options={{
-          title: 'Home 1',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,   
+          title: 'challenges',
+          tabBarIcon: ({ color }) => <AntDesign name="flag" size={24} color={ color } />,   
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="leaderboard"
         options={{
-          title: 'Home 2 ',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'leaderboard',
+          tabBarIcon: ({ color }) =><AntDesign name="barchart" size={24} color={ color } />,  
         }}
       />
+      <Tabs.Screen
+        name="healthscore"
+        options={{
+          title: 'healthscore',
+          tabBarIcon: ({ color }) => <AntDesign name="hearto" size={24} color={ color } />,   
+        }}
+      />
+      <Tabs.Screen
+        name="recipes"
+        options={{
+          title: 'recipes',
+          tabBarIcon: ({ color }) => <AntDesign name="book" size={24} color={ color } />,  
+        }}
+      />
+      <Tabs.Screen
+        name="videos"
+        options={{
+          title: 'videos',
+          tabBarIcon: ({ color }) => <AntDesign name="videocamera" size={24} color={ color } />,  
+        }}
+      />
+      
     </Tabs>
+    
+    
   );
 }
