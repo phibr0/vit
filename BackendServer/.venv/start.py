@@ -14,6 +14,8 @@ class User():
         self.hashedpassword = sha256(password.encode('UTF-8')).hexdigest()
         self.friends = []
         self.token = None
+        self.weight = None
+        self.height = None
 
 @app.route("/")
 def home():
@@ -28,7 +30,42 @@ def user():
         return open("user"+sha256(request.form['username'].encode('UTF-8')).hexdigest()[:9]+".json", 'r').read()
 
 def isToken(username, token):
-    return token == json.load(open("user"+sha256(username.encode('UTF-8')).hexdigest()[:9]+".json", 'r'))['token']
+    try:
+        return token == json.load(open("user"+sha256(username.encode('UTF-8')).hexdigest()[:9]+".json", 'r'))['token']
+    except Exception:
+        return False
+
+@app.route('/setWeight', methods=['POST'])
+
+# username, token, stat, value
+@app.route('/set', methods=['POST'])
+def set():
+    if not isToken(request.form['username'], request.form['token']):
+        return "wrong Token", 403
+    else:
+        return write(request.form['username'], request.form['stat'], request.form['value'])
+    
+# username, token, stat
+@app.route('/get',methods=['GET'])
+def get():
+    if not isToken(request.form['username'], request.form['token']):
+        return "wrong Token", 403
+    try:
+        return json.loads(open("user"+getUUID(request.form['username'])+".json",'r').read())[request.form['stat']]
+    except Exception:
+        return "couldnt get height", 400
+
+#default change json values
+def write(username, type, argument):
+    try:
+        j = json.loads(open("user"+getUUID(username)+".json",'r').read())
+        j[type] = argument
+        open("user"+getUUID(username)+".json",'w').write(json.dumps(j))
+    except Exception:
+        return "write error", 406
+
+    return "writed", 200
+
 
 def getToken(uuid):
     try:
@@ -47,6 +84,9 @@ def getToken(uuid):
         print("createdNewToken:"+token.hex())
         return token
 
+def getUUID(username):
+    return sha256(username.encode('UTF-8')).hexdigest()[:9]
+
 #add token to user
 def setToken(uuid, token):
     print("setToken..\n"+token.hex())
@@ -56,6 +96,36 @@ def setToken(uuid, token):
     j['token'] = token.hex()
     open("user"+uuid+".json", 'w').write( json.dumps(j) )
     
+#addfriends
+@app.route("/friends", methods=['POST','GET'])
+def friends():
+    if request.method == 'POST':
+        if isToken(request.form['username'], request.form['token']):
+            return addFriend(request.form['username'], request.form['friend'])
+        else:
+            return "wrong token", 401
+    elif request.method == 'GET':
+        if isToken(request.form['username'], request.form['token']):
+            return json.loads(open("user"+getUUID(request.form['username'])+".json",'r').read())['friends'], 200
+    else:
+        return "only GET or POST allowed",405
+
+
+
+def addFriend(username, friend):
+    j = json.loads(open("user"+getUUID(username)+".json",'r').read())
+    f = None
+    try:
+        f = open("user"+getUUID(friend)+".json",'r')
+    except Exception:
+        print("")
+    if f != None:
+        j['friends'].append(getUUID(friend))
+        print(json.dumps(j))
+        open("user"+getUUID(username)+".json",'w').write(json.dumps(j))
+        return "added "+friend+" to friendslist from "+username, 200
+    else:
+        return "friend not found\n", 404
 
 #login
 @app.route("/login", methods=['GET'])
@@ -65,7 +135,7 @@ def login():
             return "GET needed\n", 400
         if valid_login(request.form['username'], request.form['password']):
             print("valid login\n")
-            return getToken(sha256(request.form['username'].encode('UTF-8')).hexdigest()[:9]), 202
+            return getToken(sha256(request.form['username'].encode('UTF-8')).hexdigest()[:9]), 200
         else:
             return "invalid login\n", 401
     except Exception:
