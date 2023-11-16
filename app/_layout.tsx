@@ -67,6 +67,10 @@ function RootLayoutNav() {
             name="accountCreator"
             options={{ presentation: 'modal', title: 'Account erstellen' }}
           />
+          <Stack.Screen
+            name="settings"
+            options={{ presentation: 'modal', title: 'Einstellungen' }}
+          />
         </Stack>
       </QueryClientProvider>
     </TamaguiProvider>

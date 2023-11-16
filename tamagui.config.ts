@@ -7,7 +7,7 @@
 import { config } from '@tamagui/config/v2';
 
 import { createTamagui } from 'tamagui';
-const tamaguiConfig = createTamagui(config);
+const tamaguiConfig = createTamagui({ ...config });
 // this makes typescript properly type everything based on the config
 
 type Conf = typeof tamaguiConfig;
