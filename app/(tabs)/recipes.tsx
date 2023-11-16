@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
-import { Text, View, TouchableOpacity, Image } from "react-native";
+import { Text, View, TouchableOpacity, Button, Image } from "react-native";
 import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
+import { useLocalStorage } from ".";
 
 function RecipeList({ recipeName, recipeContent, receipPicture }: any) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -11,6 +12,8 @@ function RecipeList({ recipeName, recipeContent, receipPicture }: any) {
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
+
+  const { data, mutate } = useLocalStorage(recipeName, 0);
 
   return (
     <View>
@@ -28,7 +31,16 @@ function RecipeList({ recipeName, recipeContent, receipPicture }: any) {
           />
         </TouchableOpacity>
       </View>
-      {isExpanded && <Text className="m-5">{recipeContent}</Text>}
+      {isExpanded && (
+        <>
+          <Text className="m-5">{recipeContent}</Text>
+          <TouchableOpacity className="mr-2" onPress={toggleExpand}>
+            <Text className="text-center text-xl shadow-xl">
+              habe ich gekocht
+            </Text>
+          </TouchableOpacity>
+        </>
+      )}
     </View>
   );
 }
