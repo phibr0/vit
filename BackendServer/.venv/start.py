@@ -60,13 +60,16 @@ def setToken(uuid, token):
 #login
 @app.route("/login", methods=['GET'])
 def login():
-    if not request.method == 'GET':
-        return "GET needed\n", 400
-    if valid_login(request.form['username'], request.form['password']):
-        print("valid login\n")
-        return getToken(sha256(request.form['username'].encode('UTF-8')).hexdigest()[:9]), 202
-    else:
-        return "invalid login\n", 401
+    try:
+        if not request.method == 'GET':
+            return "GET needed\n", 400
+        if valid_login(request.form['username'], request.form['password']):
+            print("valid login\n")
+            return getToken(sha256(request.form['username'].encode('UTF-8')).hexdigest()[:9]), 202
+        else:
+            return "invalid login\n", 401
+    except Exception:
+        return "User Not Available", 401
 
 # to JSON initializer
 def toJSON(self):
