@@ -49,11 +49,11 @@ def set():
 @app.route('/get',methods=['GET'])
 def get():
     if not isToken(request.form['username'], request.form['token']):
-        return "wrong Token", 403
+        return "wrong Token\n", 403
     try:
         return json.loads(open("user"+getUUID(request.form['username'])+".json",'r').read())[request.form['stat']]
     except Exception:
-        return "couldnt get height", 400
+        return "couldnt get "+request.form['stat'], 400
 
 #default change json values
 def write(username, type, argument):
@@ -62,9 +62,9 @@ def write(username, type, argument):
         j[type] = argument
         open("user"+getUUID(username)+".json",'w').write(json.dumps(j))
     except Exception:
-        return "write error", 406
+        return "write error\n", 406
 
-    return "writed", 200
+    return "writed\n", 200
 
 
 def getToken(uuid):
