@@ -37,7 +37,7 @@ function RecipeList({ recipeName, recipeContent, receipPicture }: any) {
       </View>
       {isExpanded && (
         <>
-          <Text className="px-2">{recipeContent}</Text>
+          <Text className="px-2 my-4">{recipeContent}</Text>
           <Button
             className="mr-2"
             onPress={() => {
