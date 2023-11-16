@@ -2,14 +2,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'expo-router';
 import { AntDesign } from '@expo/vector-icons';
-import {
-  Image,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, Text, View } from 'tamagui';
 import * as Svg from 'react-native-svg';
+import { SafeAreaView, TouchableOpacity } from 'react-native';
 
 export default function TabOneScreen() {
   return (
@@ -24,15 +19,9 @@ export default function TabOneScreen() {
             <AntDesign name="setting" size={24} color="black" />
           </Text>
         </View>
-        <Image
-          width={500}
-          height={500}
-          source={{
-            uri: 'https://reactnative.dev/img/tiny_logo.png',
-          }}
-        />
+        <Image width={300} height={500} source={require('./char.png')} />
         <View className="flex flex-row w-full px-8 justify-between">
-          <Text>Gesundheitswert</Text>
+          <AntDesign name="heart" size={96} color="pink" />
           <WaterLevel />
         </View>
       </View>

@@ -1,10 +1,16 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
-import { SplashScreen, Stack } from 'expo-router';
+import { SplashScreen, Stack, router } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import '../global.css';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import '@tamagui/core/reset.css';
+
+import { TamaguiProvider } from 'tamagui';
+
+import config from '../tamagui.config';
 
 const queryClient = new QueryClient();
 
@@ -32,6 +38,16 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
+  useEffect(() => {
+    const fn = async () => {
+      const isSignedUp = await AsyncStorage.getItem('account');
+      if (!isSignedUp) {
+        router.replace('/accountCreator');
+      }
+    };
+    if (loaded) fn();
+  }, [loaded]);
+
   if (!loaded) {
     return null;
   }
@@ -41,12 +57,18 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-        <Stack.Screen name="profile" options={{ presentation: 'modal' }} />
-      </Stack>
-    </QueryClientProvider>
+    <TamaguiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="profile" options={{ presentation: 'modal' }} />
+          <Stack.Screen
+            name="accountCreator"
+            options={{ presentation: 'modal', title: 'Account erstellen' }}
+          />
+        </Stack>
+      </QueryClientProvider>
+    </TamaguiProvider>
   );
 }
