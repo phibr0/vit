@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { Image, SafeAreaView, StyleSheet } from 'react-native';
 import { Text, View } from 'react-native';
 
 export default function TabOneScreen() {
@@ -16,7 +16,13 @@ export default function TabOneScreen() {
   return (
     <SafeAreaView>
       <View className="">
-        <Text className="">Data</Text>
+        <Image
+          width={1000}
+          height={1000}
+          source={{
+            uri: data.meals[0].strMealThumb,
+          }}
+        />
       </View>
     </SafeAreaView>
   );
