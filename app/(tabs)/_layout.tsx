@@ -1,8 +1,5 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable, useColorScheme } from 'react-native';
-import Colors from '../../constants/Colors';
 import { AntDesign } from '@expo/vector-icons';
+import { Tabs } from 'expo-router';
 
 export default function TabLayout() {
   return (
@@ -14,7 +11,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="challenges"
         options={{
-          title: 'challenges',
+          title: 'Challenges',
           tabBarIcon: ({ color }) => (
             <AntDesign name="flag" size={24} color={color} />
           ),
@@ -23,16 +20,16 @@ export default function TabLayout() {
       <Tabs.Screen
         name="leaderboard"
         options={{
-          title: 'leaderboard',
+          title: 'Leaderboard',
           tabBarIcon: ({ color }) => (
             <AntDesign name="barchart" size={24} color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="healthscore"
+        name="index"
         options={{
-          title: 'healthscore',
+          title: 'Healthscore',
           tabBarIcon: ({ color }) => (
             <AntDesign name="hearto" size={24} color={color} />
           ),
@@ -41,7 +38,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="recipes"
         options={{
-          title: 'recipes',
+          title: 'Recipes',
           tabBarIcon: ({ color }) => (
             <AntDesign name="book" size={24} color={color} />
           ),
@@ -50,7 +47,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="videos"
         options={{
-          title: 'videos',
+          title: 'Videos',
           tabBarIcon: ({ color }) => (
             <AntDesign name="videocamera" size={24} color={color} />
           ),
