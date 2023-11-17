@@ -490,13 +490,14 @@ export default function TabOneScreen() {
             <View>
               <Card bordered padded elevate>
                 {QUESTS.daily.map((quest) => (
-                  <QuestItem
-                    quest={
-                      quest.quests[
-                        Math.floor(Math.random() * quest.quests.length)
-                      ]
-                    }
-                  />
+                  <View className="flex flex-row mt-4 ">
+                    <Checkbox mr="$2.5" ml="$2.5" size="$4">
+                      <Checkbox.Indicator>
+                        <AntDesign icon="check" />
+                      </Checkbox.Indicator>
+                    </Checkbox>
+                    <Text>{quest.quests[0]}</Text>
+                  </View>
                 ))}
               </Card>
             </View>
