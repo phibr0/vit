@@ -18,7 +18,7 @@ function RecipeList({ recipeName, recipeContent, receipPicture }: any) {
   const [checked, setChecked] = useState(false);
 
   return (
-    <View className="rounded-2xl bg-white shadow mb-2 mx-4 py-2 px-4">
+    <View className="rounded-2xl bg-white shadow mb-2 mx-4 py-2 px-4 mt-3">
       <View className="flex flex-row gap-5 justify-between items-center">
         <Text className="w-[55%] text-ellipsis font-medium overflow-clip text-xl">
           {recipeName}
@@ -29,7 +29,7 @@ function RecipeList({ recipeName, recipeContent, receipPicture }: any) {
         />
         <TouchableOpacity onPress={toggleExpand}>
           <AntDesign
-            name={isExpanded ? 'caretup' : 'caretdown'}
+            name={isExpanded ? "caretup" : "caretdown"}
             size={16}
             color="black"
           />
@@ -56,10 +56,10 @@ function RecipeList({ recipeName, recipeContent, receipPicture }: any) {
 
 export default function TabOneScreen() {
   const { isLoading, isError, data } = useQuery({
-    queryKey: ['recipes', 'a'],
+    queryKey: ["recipes", "a"],
     queryFn: () =>
       Promise.all(
-        ['a', 'b', 'c'].map((letter) =>
+        ["a", "b", "c"].map((letter) =>
           fetch(
             `https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`
           ).then((b) => b.json())
@@ -74,7 +74,6 @@ export default function TabOneScreen() {
   return (
     <SafeAreaView className="h-full">
       <ScrollView className="h-full">
-        <Text className="text-3xl mt-2">Rezepte</Text>
         <View className="flex flex-col ">
           {data.map((recipe: any) => (
             <RecipeList

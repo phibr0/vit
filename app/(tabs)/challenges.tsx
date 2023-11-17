@@ -473,9 +473,12 @@ export default function TabOneScreen() {
     <SafeAreaView>
       <ScrollView>
         <View className="px-4 pb-24 gap-4">
-          <H1 textAlign="center" marginTop="$6">
-            Challenges
-          </H1>
+          <TouchableOpacity>
+            <H1 textAlign="center" marginTop="$6">
+              Challenges
+            </H1>
+          </TouchableOpacity>
+
           <Card bordered padded elevate>
             <H2 marginBottom="$2">Quests</H2>
             {QUESTS.daily.map((quest) => (

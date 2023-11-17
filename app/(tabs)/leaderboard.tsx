@@ -55,7 +55,6 @@ export default function TabOneScreen() {
     <SafeAreaView className="h-full">
       <ScrollView className="h-full">
         <View className="pb-80">
-          <Text className="text-3xl ">Leaderboard</Text>
           <DataTable className="h-full">
             <DataTable.Header>
               <DataTable.Title>Rang</DataTable.Title>
