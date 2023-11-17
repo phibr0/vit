@@ -142,9 +142,9 @@ def flist():
             print(json.loads(open("user"+getUUID(request.form['username'])+".json",'r').read())['friends'])
             return json.loads(open("user"+getUUID(request.form['username'])+".json",'r').read())['friends'], 200
         else:
-            return "nope", 402
+            return "token invalid", 402
     else:
-        return "nope", 405
+        return "method should be POST", 405
 
 
 def addFriend(username, friend):
