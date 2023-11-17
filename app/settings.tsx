@@ -8,6 +8,16 @@ import { Platform, Text, View } from 'react-native';
 import { Button } from 'tamagui';
 import { useLocalStorage } from './(tabs)';
 
+const debounce = (fn: any, time: number) => {
+  let timeout: any;
+  return function (this: any, ...args: any[]) {
+    const functionCall = () => fn.apply(this, args);
+
+    clearTimeout(timeout);
+    timeout = setTimeout(functionCall, time);
+  };
+};
+
 export default function SettingsModal() {
   const { data, mutate } = useLocalStorage('account', null);
 
@@ -22,7 +32,10 @@ export default function SettingsModal() {
           minimumTrackTintColor="#FFFFFF"
           maximumTrackTintColor="#000000"
           value={data.weight}
-          onValueChange={(value) => mutate({ ...data, weight: value })}
+          onValueChange={debounce(
+            (value: any) => mutate({ ...data, weight: value }),
+            100
+          )}
         />
       </View>
 
