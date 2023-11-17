@@ -30,10 +30,7 @@ export default function ModalScreen() {
         method: 'POST',
         body: formData,
       }).then((res) => res.json());
-      if (response.status === 200) {
-        return response.data;
-      }
-      throw new Error(response.message);
+      return response;
     },
   });
   console.log(list);

@@ -44,6 +44,27 @@ export default function RootLayout() {
       if (!isSignedUp) {
         router.replace('/accountCreator');
       }
+
+      const lastLoginStr = await AsyncStorage.getItem('lastLogin');
+      if (!lastLoginStr)
+        return await AsyncStorage.setItem(
+          'lastLogin',
+          new Date().toISOString()
+        );
+      const lastLogin = new Date(lastLoginStr);
+      const daysSinceLastLogin = Math.floor(
+        (new Date().getTime() - lastLogin.getTime()) / (1000 * 3600 * 24)
+      );
+
+      if (daysSinceLastLogin > 2) {
+        const currentHealth = await AsyncStorage.getItem('health');
+        await AsyncStorage.setItem(
+          'health',
+          (parseInt(currentHealth ?? '50') - daysSinceLastLogin * 3).toString()
+        );
+      }
+
+      await AsyncStorage.setItem('lastLogin', new Date().toISOString());
     };
     if (loaded) fn();
   }, [loaded]);
