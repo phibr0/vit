@@ -78,6 +78,15 @@ function Signup() {
   const [password, setPassword] = useState('');
   const [weight, setWeight] = useState(0);
   const [gender, setGender] = useState('male');
+  const [form, setForm] = useState({
+    sport: '2x',
+    cigarettes: 'Neutral',
+    alcohol: 'Neutral',
+    junkfood: 'Neutral',
+    sleepQuality: 'Neutral',
+    timeOutside: 'Neutral',
+    dob: '2000-01-01',
+  });
 
   const { mutate, isError, isPending } = useMutation({
     onSuccess: async () => {
@@ -88,6 +97,7 @@ function Signup() {
           password,
           gender,
           weight,
+          dob: form.dob,
         })
       );
       router.replace('/(tabs)');
@@ -159,16 +169,6 @@ function Signup() {
   });
 
   const [showPicker, setShowPicker] = useState(false);
-
-  const [form, setForm] = useState({
-    sport: '2x',
-    cigarettes: 'Neutral',
-    alcohol: 'Neutral',
-    junkfood: 'Neutral',
-    sleepQuality: 'Neutral',
-    timeOutside: 'Neutral',
-    dob: '2000-01-01',
-  });
 
   return (
     <ScrollView>

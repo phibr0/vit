@@ -1,13 +1,14 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // @ts-expect-error
-import RadioButtonGroup, { RadioButtonItem } from 'expo-radio-button';
+import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import Slider from "@react-native-community/slider";
 
-import { router } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import { Platform, Text, View } from 'react-native';
-import { Button } from 'tamagui';
-import { useLocalStorage } from './(tabs)';
+import { router } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { Platform, Text, View } from "react-native";
+import { Button } from "tamagui";
+import { useLocalStorage } from "./(tabs)";
+import { useState } from "react";
 
 export const debounce = (fn: any, time: number) => {
   let timeout: any;
@@ -20,14 +21,15 @@ export const debounce = (fn: any, time: number) => {
 };
 
 export default function SettingsModal() {
-  const { data, mutate } = useLocalStorage('account', null);
+  const { data, mutate } = useLocalStorage("account", null);
+  const [showPicker, setShowPicker] = useState(false);
 
   return (
     <View className="px-8 pt-12 gap-4 bg-[#F5D1C1] h-full">
       <View>
         <Text>Gewicht: {data.weight?.toFixed(1)}</Text>
         <Slider
-          style={{ width: '100%', height: 40 }}
+          style={{ width: "100%", height: 40 }}
           minimumValue={0}
           maximumValue={200}
           minimumTrackTintColor="#FFFFFF"
@@ -54,13 +56,13 @@ export default function SettingsModal() {
       <Button
         onPress={async () => {
           await AsyncStorage.clear();
-          router.replace('/accountCreator');
+          router.replace("/accountCreator");
         }}
       >
         Logout
       </Button>
 
-      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
     </View>
   );
 }
