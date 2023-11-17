@@ -129,7 +129,7 @@ def setToken(uuid, token):
 def friends():
     if request.method == 'POST':
         if isToken(request.form['username'], request.form['token']):
-            return addFriend(request.form['username'], request.form['friend']), 200
+            return addFriend(request.form['username'], request.form['friend'])
         else:
             return "wrong token", 403
     else:
@@ -157,7 +157,7 @@ def addFriend(username, friend):
         j['friends'].append(friend)
         print(json.dumps(j))
         open("user"+getUUID(username)+".json",'w').write(json.dumps(j))
-        return "added "+friend+" to friendslist from "+username
+        return "added "+friend+" to friendslist from "+username, 200
     else:
         return "friend not found\n", 404
 
