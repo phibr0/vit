@@ -1,6 +1,7 @@
 import { ImageBackground, SafeAreaView, StyleSheet } from 'react-native';
 import { Text, TouchableOpacity, ScrollView, View, Image } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { openURL } from 'expo-linking';
 
 export default function TabOneScreen() {
   return (
@@ -18,7 +19,12 @@ export default function TabOneScreen() {
                   source={require('./pic1.jpg')}
                 />
               </View>
-              <TouchableOpacity className="">
+              <TouchableOpacity
+                className=""
+                onPress={() =>
+                  openURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+                }
+              >
                 <Text className="text-center text-xl text-black">Done!</Text>
               </TouchableOpacity>
             </View>
@@ -33,7 +39,12 @@ export default function TabOneScreen() {
                   source={require('./pic2.jpg')}
                 />
               </View>
-              <TouchableOpacity className="">
+              <TouchableOpacity
+                className=""
+                onPress={() =>
+                  openURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+                }
+              >
                 <Text className="text-center text-xl text-black">Done!</Text>
               </TouchableOpacity>
             </View>
@@ -48,7 +59,12 @@ export default function TabOneScreen() {
                   source={require('./pic3.jpg')}
                 />
               </View>
-              <TouchableOpacity className="">
+              <TouchableOpacity
+                className=""
+                onPress={() =>
+                  openURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+                }
+              >
                 <Text className="text-center text-xl text-black">Done!</Text>
               </TouchableOpacity>
             </View>
@@ -63,7 +79,12 @@ export default function TabOneScreen() {
                   source={require('./pic4.jpg')}
                 />
               </View>
-              <TouchableOpacity className="">
+              <TouchableOpacity
+                className=""
+                onPress={() =>
+                  openURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+                }
+              >
                 <Text className="text-center text-xl text-black">Done!</Text>
               </TouchableOpacity>
             </View>
@@ -78,7 +99,12 @@ export default function TabOneScreen() {
                   source={require('./pic5.jpg')}
                 />
               </View>
-              <TouchableOpacity className="">
+              <TouchableOpacity
+                className=""
+                onPress={() =>
+                  openURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+                }
+              >
                 <Text className="text-centerr text-xl text-black">Done!</Text>
               </TouchableOpacity>
             </View>
