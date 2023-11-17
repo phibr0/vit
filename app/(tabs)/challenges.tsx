@@ -541,6 +541,7 @@ export default function TabOneScreen() {
             {isExpandedQuests && (
               <View>
                 <Card
+                  backgroundColor={'#FAEDE2'}
                   bordered
                   padded
                   elevate
@@ -566,6 +567,7 @@ export default function TabOneScreen() {
 
                 <Card
                   bordered
+                  backgroundColor={'#FAEDE2'}
                   padded
                   elevate
                   bg={weekliesDone === 5 ? '$green5' : undefined}
@@ -595,7 +597,7 @@ export default function TabOneScreen() {
 
             {isExpandedGoals && (
               <>
-                <Card bordered padded elevate>
+                <Card bordered padded elevate backgroundColor={'#FAEDE2'}>
                   {GOALS.map((goal, i) => (
                     <View className="mb-2" key={goal.title + i}>
                       <H3>{goal.title}</H3>

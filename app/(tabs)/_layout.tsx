@@ -2,6 +2,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Tabs, useRouter } from 'expo-router';
 import { useEffect } from 'react';
 import { useLocalStorage } from '.';
+import { View } from 'react-native';
 
 export default function TabLayout() {
   const { data, isSuccess } = useLocalStorage('account', null);
@@ -19,6 +20,11 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
+        tabBarActiveTintColor: '#8E3B1F',
+        tabBarInactiveTintColor: '#3D170B',
+        tabBarStyle: {
+          backgroundColor: '#FBEAD3',
+        },
       }}
     >
       <Tabs.Screen

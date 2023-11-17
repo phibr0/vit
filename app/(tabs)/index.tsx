@@ -53,14 +53,16 @@ export default function TabOneScreen() {
       source={require('./healthscore.png')}
     >
       <SafeAreaView>
-        <View className="flex flex-col h-full w-full justify-center items-center">
+        <View className="flex flex-col h-full w-full justify-center items-center pt-2">
           <View className="px-4 flex justify-between flex-row w-full items-center">
             <Link href="/profile">
               <AntDesign name="user" size={24} color="black" />
             </Link>
-            <Text fontSize="$10" fontWeight="$8">
-              {Math.sqrt(Math.sqrt(level)).toFixed(0)}
-            </Text>
+            <View className="border-4 border-[#6EADB6] rounded-full w-20 flex items-center justify-center h-20">
+              <Text fontSize="$10" fontWeight="$8" mb={'$1.5'}>
+                {Math.sqrt(level + 10).toFixed(0)}
+              </Text>
+            </View>
             <Link href="/settings">
               <AntDesign name="setting" size={24} color="black" />
             </Link>
@@ -74,12 +76,13 @@ export default function TabOneScreen() {
             source={getImage(data.gender, health)}
           />
           <View className="flex flex-row w-full px-8 justify-between">
-            <View className="flex items-center justify-center">
+            <View className="flex items-center mt-[-24px] justify-center">
               <AntDesign name="heart" size={96} color="pink" />
               <Text fontWeight="bold" mt={-62}>
                 {Math.min(Math.max(health, 0), 100)} %
               </Text>
             </View>
+
             <WaterLevel />
           </View>
         </View>
@@ -120,21 +123,24 @@ const WaterLevel = () => {
   const { mutate } = useMutation({
     mutationFn: async () => {
       const tmp = JSON.parse((await AsyncStorage.getItem('waterLevel'))!);
-      await client.invalidateQueries({ exact: true, queryKey: ['waterLevel'] });
-      const newLevel =
+      if (tmp.level - 3 < 40) {
+        return;
+      }
+      const waterHeight =
         tmp.level - tmp.level / waterReduction(account?.weight ?? 88);
-      if (newLevel < 40) {
-        setXP(xp + 80);
+      if (waterHeight < 40) {
+        setXP(xp + 10);
         setHealth(health + 1);
         return;
       }
-      return AsyncStorage.setItem(
+      AsyncStorage.setItem(
         'waterLevel',
         JSON.stringify({
           ...tmp,
-          level: newLevel,
+          level: waterHeight,
         })
       );
+      await client.invalidateQueries({ exact: true, queryKey: ['waterLevel'] });
     },
   });
 

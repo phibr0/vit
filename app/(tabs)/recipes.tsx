@@ -1,5 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import {
+  ImageBackground,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+} from 'react-native';
 import { Text, View, TouchableOpacity, Image } from 'react-native';
 import React, { useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
@@ -18,7 +23,7 @@ function RecipeList({ recipeName, recipeContent, receipPicture }: any) {
   const [checked, setChecked] = useState(false);
 
   return (
-    <View className="rounded-2xl bg-white shadow mb-2 mx-4 py-2 px-4 mt-3">
+    <View className="rounded-2xl bg-[#F5D1C1] shadow mb-2 mx-4 py-2 px-4 mt-3">
       <View className="flex flex-row gap-5 justify-between items-center">
         <Text className="w-[55%] text-ellipsis font-medium overflow-clip text-xl">
           {recipeName}
@@ -29,7 +34,7 @@ function RecipeList({ recipeName, recipeContent, receipPicture }: any) {
         />
         <TouchableOpacity onPress={toggleExpand}>
           <AntDesign
-            name={isExpanded ? "caretup" : "caretdown"}
+            name={isExpanded ? 'caretup' : 'caretdown'}
             size={16}
             color="black"
           />
@@ -56,10 +61,10 @@ function RecipeList({ recipeName, recipeContent, receipPicture }: any) {
 
 export default function TabOneScreen() {
   const { isLoading, isError, data } = useQuery({
-    queryKey: ["recipes", "a"],
+    queryKey: ['recipes', 'a'],
     queryFn: () =>
       Promise.all(
-        ["a", "b", "c"].map((letter) =>
+        ['a', 'b', 'c'].map((letter) =>
           fetch(
             `https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`
           ).then((b) => b.json())
@@ -72,20 +77,22 @@ export default function TabOneScreen() {
   if (isError || !data) return <Text>No Internet...</Text>;
 
   return (
-    <SafeAreaView className="h-full">
-      <ScrollView className="h-full">
-        <View className="flex flex-col ">
-          {data.map((recipe: any) => (
-            <RecipeList
-              key={recipe.idMeal}
-              recipeName={recipe.strMeal}
-              recipeContent={recipe.strInstructions}
-              receipPicture={recipe.strMealThumb}
-            />
-          ))}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <ImageBackground source={require('./recipes.png')}>
+      <SafeAreaView className="h-full">
+        <ScrollView className="h-full">
+          <View className="flex flex-col ">
+            {data.map((recipe: any) => (
+              <RecipeList
+                key={recipe.idMeal}
+                recipeName={recipe.strMeal}
+                recipeContent={recipe.strInstructions}
+                receipPicture={recipe.strMealThumb}
+              />
+            ))}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 ('https://www.youtube.com/embed/APHoRW2FfIw');

@@ -63,13 +63,13 @@ export default function TabOneScreen() {
                 .map((user, index) => (
                   <DataTable.Row key={index}>
                     <View className="w-screen h-32 flex flex-row justify-between items-center rounded-2xl">
-                      <View className="bg-white h-20 w-16 ml-4 shadow backdrop-blur-md rounded-2xl ">
+                      <View className="bg-[#F5D1C1] h-20 w-16 ml-4 shadow backdrop-blur-md rounded-2xl ">
                         <DataTable.Cell className="flex justify-center items-center rounded-2xl">
                           #{index + 1}
                         </DataTable.Cell>
                       </View>
 
-                      <View className="bg-white flex flex-row w-72 h-20 mr-14 shadow-xl  rounded-2xl">
+                      <View className="bg-[#F5D1C1] flex flex-row w-72 h-20 mr-14 shadow-xl  rounded-2xl">
                         <DataTable.Cell className="flex justify-center items-center rounded-2xl">
                           {user.name}
                         </DataTable.Cell>

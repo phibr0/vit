@@ -101,6 +101,7 @@ export default function ModalScreen() {
     junkfood: 'Neutral',
     sleepQuality: 'Neutral',
     timeOutside: 'Neutral',
+    dob: '2000-01-01',
   });
 
   return (
@@ -141,6 +142,10 @@ export default function ModalScreen() {
             onValueChange={setWeight}
             value={weight}
           />
+        </View>
+
+        <View>
+          <Text>Geburstag: {new Date(form.dob).toLocaleDateString()}</Text>
         </View>
 
         <RadioButtonGroup
