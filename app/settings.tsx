@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // @ts-expect-error
-import Slider from '@react-native-community/slider';
 import RadioButtonGroup, { RadioButtonItem } from 'expo-radio-button';
+import Slider from "@react-native-community/slider";
+
 import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { Platform, Text, View } from 'react-native';
