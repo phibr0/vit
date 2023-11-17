@@ -16,6 +16,32 @@ class User():
         self.token = None
         self.weight = None
         self.height = None
+        self.stats = []
+
+# username, token, stat, 
+@app.route('/stats', methods=['POST','GET'])
+def stats():
+    if not isToken(request.form['username'], request.form['token']):
+        return "wrong token\n", 401
+
+    if request.method == 'POST': #create new stats array
+        j = json.load(open("user"+getUUID(request.form['username'])+".json", 'r')) # read
+        s = []
+        print(json.dumps(j))
+        j['stats'][request.form['stat']] = s # change
+        json.dump(j, open("user"+getUUID(request.form['username'])+".json", 'w')) # write
+
+    elif request.method == 'GET': # get entire array by stat
+        try:
+            j = json.load(open("user"+getUUID(request.form['username'])+".json", 'r'))['stats'][request.form['stat']]
+        except Exception as err:
+            return err, 410
+        return j, 200
+
+
+    else:
+        return "only POST/GET allowed", 405
+
 
 @app.route("/")
 def home():
@@ -128,11 +154,11 @@ def addFriend(username, friend):
         return "friend not found\n", 404
 
 #login
-@app.route("/login", methods=['GET'])
+@app.route("/login", methods=['POST'])
 def login():
     try:
-        if not request.method == 'GET':
-            return "GET needed\n", 400
+        if not request.method == 'POST':
+            return "POST needed\n", 400
         if valid_login(request.form['username'], request.form['password']):
             print("valid login\n")
             return getToken(sha256(request.form['username'].encode('UTF-8')).hexdigest()[:9]), 200
