@@ -1,12 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// @ts-expect-error
+import DateTimePicker from '@react-native-community/datetimepicker';
 import Slider from '@react-native-community/slider';
+// @ts-expect-error
 import RadioButtonGroup, { RadioButtonItem } from 'expo-radio-button';
 import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { Platform, Text, View } from 'react-native';
 import { Button } from 'tamagui';
 import { useLocalStorage } from './(tabs)';
+import { useState } from 'react';
 
 export const debounce = (fn: any, time: number) => {
   let timeout: any;
@@ -20,6 +22,7 @@ export const debounce = (fn: any, time: number) => {
 
 export default function SettingsModal() {
   const { data, mutate } = useLocalStorage('account', null);
+  const [showPicker, setShowPicker] = useState(false);
 
   return (
     <View className="px-8 pt-12 gap-4 bg-[#F5D1C1] h-full">
@@ -49,6 +52,24 @@ export default function SettingsModal() {
         <RadioButtonItem value="female" label="Weiblich" />
         <RadioButtonItem value="other" label="Sonstiges" />
       </RadioButtonGroup>
+
+      <View>
+        <Text>
+          Geburstag: {data.dob ? new Date(data.dob).toLocaleDateString() : ''}
+        </Text>
+        <Button onPress={() => setShowPicker(true)}>
+          {data.dob ? 'Ändern' : 'Wählen'}
+        </Button>
+        {showPicker && (
+          <DateTimePicker
+            value={new Date(data.dob)}
+            onChange={(_, date) => {
+              setShowPicker(false);
+              mutate({ ...data, dob: date?.toDateString() ?? '' });
+            }}
+          />
+        )}
+      </View>
 
       <Button
         onPress={async () => {
