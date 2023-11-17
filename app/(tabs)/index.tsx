@@ -31,6 +31,9 @@ const IMAGES = {
 };
 
 const getImage = (gender: 'female' | 'male' = 'female', health: number) => {
+  if (!['female', 'male'].includes(gender)) {
+    gender = 'female';
+  }
   if (health > 80) {
     return IMAGES[gender].happy;
   } else if (health > 50) {
