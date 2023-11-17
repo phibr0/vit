@@ -130,7 +130,10 @@ const WaterLevel = () => {
   );
 };
 
-export const useLocalStorage = (key: string, initialValue: any) => {
+export const useLocalStorage = (
+  key: string = 'undefined',
+  initialValue: any
+) => {
   const client = useQueryClient();
   const { data } = useQuery({
     queryKey: [key],

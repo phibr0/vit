@@ -430,14 +430,14 @@ const QuestItem = ({ quest, onToggleQuest }: any) => {
                 ? new Array(current)
                     .fill(0)
                     .map((_, i) => (
-                      <AntDesign name="heart" size={16} color="red" />
+                      <AntDesign key={i} name="heart" size={16} color="red" />
                     ))
                 : null}
               {3 - current > 0
                 ? new Array(3 - current)
                     .fill(0)
                     .map((_, i) => (
-                      <AntDesign name="heart" size={16} color="black" />
+                      <AntDesign key={i} name="heart" size={16} color="black" />
                     ))
                 : null}
             </>
@@ -483,6 +483,7 @@ export default function TabOneScreen() {
             <H2 marginBottom="$2">Quests</H2>
             {QUESTS.daily.map((quest) => (
               <QuestItem
+                key={quest.categoryTitle}
                 quest={
                   quest.quests[Math.floor(Math.random() * quest.quests.length)]
                 }
