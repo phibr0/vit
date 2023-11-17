@@ -22,7 +22,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.vithealth.vithealth"
     },
     "web": {
       "bundler": "metro",
@@ -43,6 +44,6 @@
         "projectId": "bbeedcb3-8982-4861-9974-4e19e279285d"
       }
     },
-    "owner": "phibr0"
+    "owner": "vit-health"
   }
 }

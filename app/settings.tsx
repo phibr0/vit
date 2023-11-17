@@ -1,21 +1,30 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import RadioButtonGroup, { RadioButtonItem } from 'expo-radio-button';
+// @ts-expect-error
 import Slider from '@react-native-community/slider';
-import { useMutation } from '@tanstack/react-query';
+import RadioButtonGroup, { RadioButtonItem } from 'expo-radio-button';
 import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
-import { Platform, TextInput, View, Text } from 'react-native';
-import { useLocalStorage } from './(tabs)';
+import { Platform, Text, View } from 'react-native';
 import { Button } from 'tamagui';
+import { useLocalStorage } from './(tabs)';
+
+export const debounce = (fn: any, time: number) => {
+  let timeout: any;
+  return function (this: any, ...args: any[]) {
+    const functionCall = () => fn.apply(this, args);
+
+    clearTimeout(timeout);
+    timeout = setTimeout(functionCall, time);
+  };
+};
 
 export default function SettingsModal() {
   const { data, mutate } = useLocalStorage('account', null);
 
   return (
-    <View className="px-8 mt-12 gap-4">
+    <View className="px-8 pt-12 gap-4 bg-[#F5D1C1] h-full">
       <View>
-        <Text>Gewicht: {data.weight.toFixed(1)}</Text>
+        <Text>Gewicht: {data.weight?.toFixed(1)}</Text>
         <Slider
           style={{ width: '100%', height: 40 }}
           minimumValue={0}
@@ -23,7 +32,10 @@ export default function SettingsModal() {
           minimumTrackTintColor="#FFFFFF"
           maximumTrackTintColor="#000000"
           value={data.weight}
-          onValueChange={(value) => mutate({ ...data, weight: value })}
+          onValueChange={debounce(
+            (value: any) => mutate({ ...data, weight: value }),
+            100
+          )}
         />
       </View>
 
@@ -31,6 +43,7 @@ export default function SettingsModal() {
         containerStyle={{ marginBottom: 10 }}
         selected={data.gender}
         onSelected={(value: any) => mutate({ ...data, gender: value })}
+        radioBackground="#D9622B"
       >
         <RadioButtonItem value="male" label="Männlich" />
         <RadioButtonItem value="female" label="Weiblich" />

@@ -1,4 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 // @ts-expect-error
 import RadioButtonGroup, { RadioButtonItem } from 'expo-radio-button';
 import Slider from '@react-native-community/slider';
@@ -7,9 +9,71 @@ import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Button, Platform, TextInput, View, Text } from 'react-native';
-import { ScrollView, Select } from 'tamagui';
+import { ScrollView, Select, debounce } from 'tamagui';
 
-export default function ModalScreen() {
+export default function Modal() {
+  const [mode, setMode] = useState('signup');
+  return (
+    <View>
+      <View className="flex flex-row items-center gap-2">
+        <Button title="Account erstellen" onPress={() => setMode('signup')} />
+        <Button title="Einloggen" onPress={() => setMode('signin')} />
+      </View>
+
+      {mode === 'signup' ? <Signup /> : <Signin />}
+    </View>
+  );
+}
+
+function Signin() {
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [hasError, setHasError] = useState(false);
+
+  const onSignIn = async () => {
+    const formData = new FormData();
+    formData.append('username', name);
+    formData.append('password', password);
+    formData.append('key', '1000101');
+    const response = await fetch('http://192.168.127.66:5000/login', {
+      method: 'POST',
+      body: formData,
+    });
+    if (response.status !== 200) {
+      setHasError(true);
+      return;
+    }
+    await AsyncStorage.setItem('account', JSON.stringify({ name, password }));
+    router.replace('/(tabs)');
+  };
+
+  return (
+    <View>
+      {hasError && (
+        <View>
+          <Text>Ein Fehler ist aufgetreten</Text>
+        </View>
+      )}
+      <Text>Benutzername</Text>
+      <TextInput
+        placeholder="Benutzername"
+        value={name}
+        onChangeText={setName}
+      />
+
+      <Text>Passwort</Text>
+      <TextInput
+        placeholder="Passwort"
+        value={password}
+        onChangeText={setPassword}
+      />
+
+      <Button title="Einloggen" onPress={onSignIn} />
+    </View>
+  );
+}
+
+function Signup() {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [weight, setWeight] = useState(0);
@@ -94,6 +158,8 @@ export default function ModalScreen() {
     },
   });
 
+  const [showPicker, setShowPicker] = useState(false);
+
   const [form, setForm] = useState({
     sport: '2x',
     cigarettes: 'Neutral',
@@ -139,16 +205,27 @@ export default function ModalScreen() {
             maximumValue={200}
             minimumTrackTintColor="#FFFFFF"
             maximumTrackTintColor="#000000"
-            onValueChange={setWeight}
+            onValueChange={debounce(setWeight, 100)}
             value={weight}
           />
         </View>
 
         <View>
           <Text>Geburstag: {new Date(form.dob).toLocaleDateString()}</Text>
+          <Button onPress={() => setShowPicker(true)} title="Auswählen" />
+          {showPicker && (
+            <DateTimePicker
+              value={new Date(form.dob)}
+              onChange={(_, date) => {
+                setShowPicker(false);
+                setForm({ ...form, dob: date?.toDateString() ?? '' });
+              }}
+            />
+          )}
         </View>
 
         <RadioButtonGroup
+          radioBackground="#D9622B"
           containerStyle={{ marginBottom: 10 }}
           selected={gender}
           onSelected={(value: any) => setGender(value)}
@@ -161,6 +238,7 @@ export default function ModalScreen() {
         <View>
           <Text>Wie oft Sport pro Woche?</Text>
           <RadioButtonGroup
+            radioBackground="#D9622B"
             containerStyle={{ marginBottom: 10 }}
             selected={form.sport}
             onSelected={(value: any) => setForm({ ...form, sport: value })}
@@ -174,6 +252,7 @@ export default function ModalScreen() {
         <View>
           <Text>Regelmäßiger Zigarettenkonsum</Text>
           <RadioButtonGroup
+            radioBackground="#D9622B"
             containerStyle={{ marginBottom: 10 }}
             selected={form.cigarettes}
             onSelected={(value: any) => setForm({ ...form, cigarettes: value })}
@@ -193,6 +272,7 @@ export default function ModalScreen() {
         <View>
           <Text>wie oft am saufen</Text>
           <RadioButtonGroup
+            radioBackground="#D9622B"
             containerStyle={{ marginBottom: 10 }}
             selected={form.alcohol}
             onSelected={(value: any) => setForm({ ...form, alcohol: value })}
@@ -212,6 +292,7 @@ export default function ModalScreen() {
         <View>
           <Text>wie oft bei mcces</Text>
           <RadioButtonGroup
+            radioBackground="#D9622B"
             containerStyle={{ marginBottom: 10 }}
             selected={form.junkfood}
             onSelected={(value: any) => setForm({ ...form, junkfood: value })}
@@ -231,6 +312,7 @@ export default function ModalScreen() {
         <View>
           <Text>Ausgewogener Schlaf</Text>
           <RadioButtonGroup
+            radioBackground="#D9622B"
             containerStyle={{ marginBottom: 10 }}
             selected={form.sleepQuality}
             onSelected={(value: any) =>
@@ -252,6 +334,7 @@ export default function ModalScreen() {
         <View>
           <Text>Regelmäßig rausgehen</Text>
           <RadioButtonGroup
+            radioBackground="#D9622B"
             containerStyle={{ marginBottom: 10 }}
             selected={form.timeOutside}
             onSelected={(value: any) =>
