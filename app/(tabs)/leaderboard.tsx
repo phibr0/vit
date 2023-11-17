@@ -1,32 +1,50 @@
-import { ScrollView } from "tamagui";
-import { View, Text, FlatList, StyleSheet, SafeAreaView } from "react-native";
-import { DataTable } from "react-native-paper";
-import React, { useState, useEffect } from "react";
+import { ScrollView } from 'tamagui';
+import React from 'react';
+import { View, Text, FlatList, StyleSheet, SafeAreaView } from 'react-native';
+import { DataTable } from 'react-native-paper';
 
 const data = [
   {
-    name: "John",
+    name: 'John',
+    rank: 1,
+    currentHealth: 80,
+    level: 5,
     score: 1200,
   },
   {
-    name: "Alice",
+    name: 'Alice',
+    rank: 2,
+    currentHealth: 95,
+    level: 7,
     score: 1800,
   },
   {
-    name: "Alec",
-    score: 1400,
+    name: 'Alice',
+    rank: 3,
+    currentHealth: 95,
+    level: 7,
+    score: 1800,
   },
   {
-    name: "Alina",
-    score: 1850,
+    name: 'Alice',
+    rank: 4,
+    currentHealth: 95,
+    level: 7,
+    score: 1800,
   },
   {
-    name: "Ami",
-    score: 2000,
+    name: 'Alice',
+    rank: 5,
+    currentHealth: 95,
+    level: 7,
+    score: 1800,
   },
   {
-    name: "Kamil",
-    score: 1400,
+    name: 'Alice',
+    rank: 6,
+    currentHealth: 95,
+    level: 7,
+    score: 1800,
   },
 ];
 
