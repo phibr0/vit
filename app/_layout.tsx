@@ -1,12 +1,12 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Toast from 'react-native-toast-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import '@tamagui/core/reset.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack, router } from 'expo-router';
 import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
 import '../global.css';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import '@tamagui/core/reset.css';
 
 import { TamaguiProvider } from 'tamagui';
 
@@ -71,6 +71,7 @@ function RootLayoutNav() {
             name="settings"
             options={{ presentation: 'modal', title: 'Einstellungen' }}
           />
+          <Toast />
         </Stack>
       </QueryClientProvider>
     </TamaguiProvider>

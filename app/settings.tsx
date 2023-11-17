@@ -40,6 +40,7 @@ export default function SettingsModal() {
       <Button
         onPress={async () => {
           await AsyncStorage.clear();
+          router.replace('/accountCreator');
         }}
       >
         Logout
