@@ -60,11 +60,11 @@ export default function TabOneScreen() {
             </Link>
             <View className="border-4 border-[#6EADB6] rounded-full w-20 flex items-center justify-center h-20">
               <Text fontSize="$10" fontWeight="$8" mb={'$1.5'}>
-                {Math.sqrt(level + 10).toFixed(0)}
+                {(Math.sqrt(level + 10) - 3).toFixed(0)}
               </Text>
             </View>
             <Link href="/settings">
-              <AntDesign name="setting" size={24} color="black" />
+              <AntDesign name="setting" size={24} color="blck" />
             </Link>
           </View>
           <View className="h-32" />

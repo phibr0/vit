@@ -25,6 +25,7 @@ export default function ModalScreen() {
       }).then((res) => res.text());
       const formData = new FormData();
       formData.append('token', token);
+      formData.append('username', data.name);
       const response = await fetch('http://192.168.127.66:5000/friendget', {
         method: 'POST',
         body: formData,
@@ -118,7 +119,7 @@ export default function ModalScreen() {
 
             <View>
               <Text className="text-7xl text-orange-800 font-bold mt-24">
-                {Math.sqrt(level + 10).toFixed(0)}
+                {(Math.sqrt(level + 10) - 3).toFixed(0)}
               </Text>
               <Text className="text-center text-orange-900 font-bold">
                 Dein Level
