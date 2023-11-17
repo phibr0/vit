@@ -30,7 +30,7 @@ const IMAGES = {
   },
 };
 
-const getImage = (gender: 'female' | 'male', health: number) => {
+const getImage = (gender: 'female' | 'male' = 'female', health: number) => {
   if (health > 80) {
     return IMAGES[gender].happy;
   } else if (health > 50) {
