@@ -72,7 +72,7 @@ def set():
         return write(request.form['username'], request.form['stat'], request.form['value'])
     
 # username, token, stat
-@app.route('/get',methods=['GET'])
+@app.route('/get',methods=['POST'])
 def get():
     if not isToken(request.form['username'], request.form['token']):
         return "wrong Token\n", 403
@@ -133,7 +133,7 @@ def friends():
         else:
             return "wrong token", 401
     else:
-        return "only GET or POST allowed", 405
+        return "only POST allowed", 405
 
 @app.route("/friendget", methods=['POST'])
 def flist():
