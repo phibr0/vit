@@ -95,16 +95,18 @@ def write(username, type, argument):
 
 def getToken(uuid):
     try:
-        token = json.loads(open("user"+uuid+".json", 'r').read())['token']
-        if token != None:
+        if not json.loads(open("user"+uuid+".json", 'r').read())['token'] == None:
+            token = json.loads(open("user"+uuid+".json", 'r').read())['token']
+            print("TOKEN: "+token)
             return token
         else:
             token = token_bytes(16)
-            print(token)
             setToken(uuid, token)
-            print("createdNewToken:"+token.hex())
-            return token
-    except KeyError:
+            tk = token.hex()
+            print("createdNewToken:"+tk)
+            return tk
+    except Exception:
+        print("Exception")
         token = token_bytes(16)
         setToken(uuid, token)
         print("createdNewToken:"+token.hex())
@@ -167,8 +169,8 @@ def login():
         if not request.method == 'POST':
             return "POST needed\n", 400
         if valid_login(request.form['username'], request.form['password']):
-            print("valid login\n")
-            return getToken(sha256(request.form['username'].encode('UTF-8')).hexdigest()[:9]), 200
+            print("valid login")
+            return getToken(getUUID(request.form['username'])), 200
         else:
             return "invalid login\n", 401
     except Exception:
