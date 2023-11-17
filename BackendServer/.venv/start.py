@@ -123,19 +123,26 @@ def setToken(uuid, token):
     open("user"+uuid+".json", 'w').write( json.dumps(j) )
     
 #addfriends
-@app.route("/friends", methods=['POST','GET'])
+@app.route("/friendset", methods=['POST'])
 def friends():
     if request.method == 'POST':
         if isToken(request.form['username'], request.form['token']):
-            return addFriend(request.form['username'], request.form['friend'])
+            return addFriend(request.form['username'], request.form['friend']), 200
         else:
             return "wrong token", 401
-    elif request.method == 'GET':
-        if isToken(request.form['username'], request.form['token']):
-            return json.loads(open("user"+getUUID(request.form['username'])+".json",'r').read())['friends'], 200
     else:
-        return "only GET or POST allowed",405
+        return "only GET or POST allowed", 405
 
+@app.route("/friendget", methods=['POST'])
+def flist():
+    if request.method == 'POST':
+        if isToken(request.form['username'], request.form['token']):
+            print(json.loads(open("user"+getUUID(request.form['username'])+".json",'r').read())['friends'])
+            return json.loads(open("user"+getUUID(request.form['username'])+".json",'r').read())['friends'], 200
+        else:
+            return "nope", 402
+    else:
+        return "nope", 405
 
 
 def addFriend(username, friend):
@@ -146,10 +153,10 @@ def addFriend(username, friend):
     except Exception:
         print("")
     if f != None:
-        j['friends'].append(getUUID(friend))
+        j['friends'].append(friend)
         print(json.dumps(j))
         open("user"+getUUID(username)+".json",'w').write(json.dumps(j))
-        return "added "+friend+" to friendslist from "+username, 200
+        return "added "+friend+" to friendslist from "+username
     else:
         return "friend not found\n", 404
 
