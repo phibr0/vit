@@ -12,6 +12,7 @@ export default function ModalScreen() {
   const [password, setPassword] = useState('');
   const [weight, setWeight] = useState(0);
   const [gender, setGender] = useState('male');
+
   const { mutate, isError, isPending } = useMutation({
     onSuccess: async () => {
       await AsyncStorage.setItem(
