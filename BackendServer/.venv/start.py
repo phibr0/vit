@@ -131,7 +131,7 @@ def friends():
         if isToken(request.form['username'], request.form['token']):
             return addFriend(request.form['username'], request.form['friend']), 200
         else:
-            return "wrong token", 401
+            return "wrong token", 403
     else:
         return "only POST allowed", 405
 
@@ -141,7 +141,7 @@ def flist():
         if isToken(request.form['username'], request.form['token']):
             return json.loads(open("user"+getUUID(request.form['username'])+".json",'r').read())['friends'], 200
         else:
-            return "token invalid", 401
+            return "token invalid", 403
     else:
         return "method should be POST", 405
 
@@ -171,9 +171,9 @@ def login():
             print("valid login")
             return getToken(getUUID(request.form['username'])), 200
         else:
-            return "invalid login\n", 401
+            return "invalid login\n", 403
     except Exception:
-        return "User Not Available", 401
+        return "User Not Available", 406
 
 # to JSON initializer
 def toJSON(self):
