@@ -9,7 +9,7 @@ import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Button, Platform, TextInput, View, Text } from 'react-native';
-import { ScrollView, Select } from 'tamagui';
+import { ScrollView, Select, debounce } from 'tamagui';
 
 export default function Modal() {
   const [mode, setMode] = useState('signup');
@@ -205,7 +205,7 @@ function Signup() {
             maximumValue={200}
             minimumTrackTintColor="#FFFFFF"
             maximumTrackTintColor="#000000"
-            onValueChange={setWeight}
+            onValueChange={debounce(setWeight, 100)}
             value={weight}
           />
         </View>

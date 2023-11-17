@@ -8,7 +8,7 @@ import { Platform, Text, View } from 'react-native';
 import { Button } from 'tamagui';
 import { useLocalStorage } from './(tabs)';
 
-const debounce = (fn: any, time: number) => {
+export const debounce = (fn: any, time: number) => {
   let timeout: any;
   return function (this: any, ...args: any[]) {
     const functionCall = () => fn.apply(this, args);
