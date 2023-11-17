@@ -29,8 +29,11 @@ export default function ModalScreen() {
       const response = await fetch('http://192.168.127.66:5000/friendget', {
         method: 'POST',
         body: formData,
-      }).then((res) => res.json());
-      return response;
+      });
+      if (response.status === 200) {
+        return response.json();
+      }
+      throw new Error('Error');
     },
   });
   console.log(list);
