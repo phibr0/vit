@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'expo-router';
 import { SafeAreaView, View, TouchableOpacity } from 'react-native';
 import * as Svg from 'react-native-svg';
-import { Image, Text } from 'tamagui';
+import { Image, Stack, Text } from 'tamagui';
 
 const waterReduction = (weight: number) => {
   const max = weight * 35;
@@ -33,14 +33,6 @@ export default function TabOneScreen() {
   return (
     <SafeAreaView>
       <View className="flex flex-col h-full w-full justify-center items-center">
-        <LinearGradient
-          width="$6"
-          height="$6"
-          borderRadius="$4"
-          colors={['$red10', '$yellow10']}
-          start={[0, 1]}
-          end={[0, 0]}
-        />
         <View className="px-4 flex justify-between flex-row w-full items-center">
           <Link href="/profile">
             <AntDesign name="user" size={24} color="black" />
