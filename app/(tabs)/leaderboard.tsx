@@ -5,52 +5,35 @@ import { H1, ScrollView } from 'tamagui';
 
 const data = [
   {
-    name: 'John',
-    rank: 1,
-    currentHealth: 80,
-    level: 5,
+    name: "John",
+    score: 2200,
+  },
+  {
+    name: "Alice",
+    rank: 2,
+    score: 2000,
+  },
+  {
+    name: "Kevin",
+    score: 1900,
+  },
+  {
+    name: "Marvin",
     score: 1200,
   },
   {
-    name: 'Alice',
-    rank: 2,
-    currentHealth: 95,
-    level: 7,
-    score: 1800,
+    name: "Peter",
+    score: 1300,
   },
   {
-    name: 'Alice',
-    rank: 3,
-    currentHealth: 95,
-    level: 7,
-    score: 1800,
-  },
-  {
-    name: 'Alice',
-    rank: 4,
-    currentHealth: 95,
-    level: 7,
-    score: 1800,
-  },
-  {
-    name: 'Alice',
-    rank: 5,
-    currentHealth: 95,
-    level: 7,
-    score: 1800,
-  },
-  {
-    name: 'Alice',
-    rank: 6,
-    currentHealth: 95,
-    level: 7,
+    name: "Günther",
     score: 1800,
   },
 ];
 
 export default function TabOneScreen() {
   return (
-    <ImageBackground source={require('./leaderboard.png')}>
+    <ImageBackground source={require("./leaderboard.png")}>
       <SafeAreaView className="h-full">
         <ScrollView className="h-full">
           <H1 mt="$4" textAlign="center">
