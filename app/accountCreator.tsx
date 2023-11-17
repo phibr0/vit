@@ -19,6 +19,8 @@ export default function ModalScreen() {
         'account',
         JSON.stringify({
           name,
+          password,
+          gender,
           weight,
         })
       );

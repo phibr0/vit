@@ -1,16 +1,68 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from "react";
-import { Platform, Image } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import { Text, View, TouchableOpacity, TextInput } from "react-native";
-import { useLocalStorage } from "./(tabs)";
-import { Button } from "tamagui";
+import { useState } from 'react';
+import { Platform, Image } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+import { Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { useLocalStorage } from './(tabs)';
+import { Button } from 'tamagui';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export default function ModalScreen() {
-  const { data } = useLocalStorage("account", null);
-  const [status, setStatus] = useState("profile");
-  const [friendname, searchFriendname] = useState("");
+  const { data } = useLocalStorage('account', null);
+  const [status, setStatus] = useState('profile');
+  const [friendname, searchFriendname] = useState('');
   const [addFriend, handleAdd] = useState(false);
+
+  const { data: list } = useQuery({
+    queryKey: ['friends'],
+    queryFn: async () => {
+      const form = new FormData();
+      form.append('username', data.name);
+      form.append('password', data.password);
+      const token = await fetch('http://192.168.127.66:5000/login', {
+        method: 'POST',
+        body: form,
+      }).then((res) => res.text());
+      const formData = new FormData();
+      const response = await fetch('http://192.168.127.66:5000/friendget', {
+        method: 'POST',
+        body: formData,
+      }).then((res) => res.json());
+      if (response.status === 200) {
+        return response.data;
+      }
+      throw new Error(response.message);
+    },
+  });
+  console.log(list);
+
+  const client = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: async () => {
+      const form = new FormData();
+      form.append('username', data.name);
+      form.append('password', data.password);
+      const token = await fetch('http://192.168.127.66:5000/login', {
+        method: 'POST',
+        body: form,
+      }).then((res) => res.text());
+      console.log(token);
+      const formData = new FormData();
+      formData.append('token', token); // 977b68375154b19ce72e95896ab952ea
+      formData.append('username', data.name); // wolfgang
+      formData.append('friend', friendname); // olaf
+      const response = await fetch('http://192.168.127.66:5000/friendset', {
+        body: formData,
+        method: 'POST',
+      }).then((res) => res.text());
+      console.log(response);
+      await client.invalidateQueries({ exact: true, queryKey: ['friends'] });
+      if (response.startsWith('added')) {
+        return response;
+      }
+      throw new Error(response);
+    },
+  });
 
   const change = (attribute: boolean) => {
     if (attribute === true) {
@@ -24,15 +76,15 @@ export default function ModalScreen() {
   return (
     <View className="h-screen w-screen">
       <View className="flex flex-row justify-between mt-4">
-        <TouchableOpacity onPress={() => setStatus("profile")}>
+        <TouchableOpacity onPress={() => setStatus('profile')}>
           <Text className="text-xl ml-4">Profile</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setStatus("friends")}>
+        <TouchableOpacity onPress={() => setStatus('friends')}>
           <Text className="text-xl mr-4">Friends</Text>
         </TouchableOpacity>
       </View>
 
-      {status === "profile" ? (
+      {status === 'profile' ? (
         <View className="flex justify-center items-center">
           <View className="w-80 h-80 bg-white rounded-2xl shadow-xl flex flex-col justify-center items-center mt-14">
             <View>
@@ -73,7 +125,7 @@ export default function ModalScreen() {
                       value={friendname}
                       onChangeText={searchFriendname}
                     />
-                    <Button size="$2">
+                    <Button size="$2" onPress={() => mutate()}>
                       <AntDesign name="plus" size={12} color="black" />
                     </Button>
                   </View>
@@ -83,16 +135,19 @@ export default function ModalScreen() {
 
             <Text className="mt-6 text-xl text-center ">Friendlist</Text>
             <View className="flex flex-col mb-4 ml-5">
-              <View className="flex flex-row ">
-                <AntDesign name="user" size={16} color="black" />
-                <Text className="ml-2">User1</Text>
-              </View>
+              {list &&
+                list.map((f: any) => (
+                  <View className="flex flex-row">
+                    <AntDesign name="user" size={16} color="black" />
+                    <Text className="ml-2">{JSON.stringify(f)}</Text>
+                  </View>
+                ))}
             </View>
           </View>
         </View>
       )}
 
-      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
+      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
     </View>
   );
 }

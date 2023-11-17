@@ -5,8 +5,9 @@ import { useMutation } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { Button, Platform, TextInput, View, Text } from 'react-native';
+import { Platform, TextInput, View, Text } from 'react-native';
 import { useLocalStorage } from './(tabs)';
+import { Button } from 'tamagui';
 
 export default function SettingsModal() {
   const { data, mutate } = useLocalStorage('account', null);
@@ -35,6 +36,14 @@ export default function SettingsModal() {
         <RadioButtonItem value="female" label="Weiblich" />
         <RadioButtonItem value="other" label="Sonstiges" />
       </RadioButtonGroup>
+
+      <Button
+        onPress={async () => {
+          await AsyncStorage.clear();
+        }}
+      >
+        Logout
+      </Button>
 
       <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
     </View>

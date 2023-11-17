@@ -1,4 +1,5 @@
 import { AntDesign } from '@expo/vector-icons';
+import { LinearGradient } from 'tamagui/linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'expo-router';
@@ -32,6 +33,14 @@ export default function TabOneScreen() {
   return (
     <SafeAreaView>
       <View className="flex flex-col h-full w-full justify-center items-center">
+        <LinearGradient
+          width="$6"
+          height="$6"
+          borderRadius="$4"
+          colors={['$red10', '$yellow10']}
+          start={[0, 1]}
+          end={[0, 0]}
+        />
         <View className="px-4 flex justify-between flex-row w-full items-center">
           <Link href="/profile">
             <AntDesign name="user" size={24} color="black" />
