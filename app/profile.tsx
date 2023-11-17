@@ -24,6 +24,7 @@ export default function ModalScreen() {
         body: form,
       }).then((res) => res.text());
       const formData = new FormData();
+      formData.append('token', token);
       const response = await fetch('http://192.168.127.66:5000/friendget', {
         method: 'POST',
         body: formData,
