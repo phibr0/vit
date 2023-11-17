@@ -4,14 +4,14 @@ import { useEffect } from 'react';
 import { useLocalStorage } from '.';
 
 export default function TabLayout() {
-  const { data } = useLocalStorage('account', null);
+  const { data, isSuccess } = useLocalStorage('account', null);
   const router = useRouter();
 
   useEffect(() => {
-    if (!data) {
+    if (!data && isSuccess) {
       setImmediate(() => router.replace('/accountCreator'));
     }
-  }, [data, router]);
+  }, [data, router, isSuccess]);
 
   if (!data) return null;
 

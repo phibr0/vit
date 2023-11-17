@@ -134,7 +134,7 @@ export default function ModalScreen() {
           <Text>Gewicht: {weight.toFixed(1)}</Text>
           <Slider
             style={{ width: '100%', height: 40 }}
-            minimumValue={0}
+            minimumValue={20}
             maximumValue={200}
             minimumTrackTintColor="#FFFFFF"
             maximumTrackTintColor="#000000"

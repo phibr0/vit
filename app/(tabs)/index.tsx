@@ -1,11 +1,15 @@
 import { AntDesign } from '@expo/vector-icons';
-import { LinearGradient } from 'tamagui/linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'expo-router';
-import { SafeAreaView, View, TouchableOpacity } from 'react-native';
+import {
+  ImageBackground,
+  SafeAreaView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import * as Svg from 'react-native-svg';
-import { Image, Stack, Text, ZStack } from 'tamagui';
+import { Image, Text } from 'tamagui';
 
 const waterReduction = (weight: number) => {
   const max = weight * 35;
@@ -15,14 +19,14 @@ const waterReduction = (weight: number) => {
 
 const IMAGES = {
   female: {
-    happy: require('../../assets/images/girl/girl-happy.jpeg'),
-    sad: require('../../assets/images/girl/girl-sad.jpeg'),
-    medium: require('../../assets/images/girl/girl-medium.jpeg'),
+    happy: require('../../assets/images/girl/girl-happy.png'),
+    sad: require('../../assets/images/girl/girl-sad.png'),
+    medium: require('../../assets/images/girl/girl-medium.png'),
   },
   male: {
-    happy: require('../../assets/images/boy/boy-happy.jpeg'),
-    sad: require('../../assets/images/boy/boy-sad.jpeg'),
-    medium: require('../../assets/images/boy/boy-medium.jpeg'),
+    happy: require('../../assets/images/boy/boy-happy.png'),
+    sad: require('../../assets/images/boy/boy-sad.png'),
+    medium: require('../../assets/images/boy/boy-medium.png'),
   },
 };
 
@@ -41,35 +45,43 @@ export default function TabOneScreen() {
   const gender = data?.gender === 'male' ? 'boy' : 'girl';
 
   return (
-    <SafeAreaView>
-      <View className="flex flex-col h-full w-full justify-center items-center">
-        <View className="px-4 flex justify-between flex-row w-full items-center">
-          <Link href="/profile">
-            <AntDesign name="user" size={24} color="black" />
-          </Link>
-          <Text fontSize="$10" fontWeight="$8">
-            {level}
-          </Text>
-          <Link href="/settings">
-            <AntDesign name="setting" size={24} color="black" />
-          </Link>
-        </View>
-        <Image
-          width={300}
-          height={500}
-          source={getImage(data.gender, health)}
-        />
-        <View className="flex flex-row w-full px-8 justify-between">
-          <View className="flex items-center justify-center">
-            <AntDesign name="heart" size={96} color="pink" />
-            <Text fontWeight="bold" mt={-62}>
-              {Math.min(Math.max(health, 0), 100)} %
+    <ImageBackground
+      className="min-h-full"
+      source={require('./healthscore.png')}
+    >
+      <SafeAreaView>
+        <View className="flex flex-col h-full w-full justify-center items-center">
+          <View className="px-4 flex justify-between flex-row w-full items-center">
+            <Link href="/profile">
+              <AntDesign name="user" size={24} color="black" />
+            </Link>
+            <Text fontSize="$10" fontWeight="$8">
+              {Math.sqrt(Math.sqrt(level)).toFixed(0)}
             </Text>
+            <Link href="/settings">
+              <AntDesign name="setting" size={24} color="black" />
+            </Link>
           </View>
-          <WaterLevel />
+          <View className="h-32" />
+          <Image
+            width={250}
+            height={400}
+            resizeMode="contain"
+            className="mx-12"
+            source={getImage(data.gender, health)}
+          />
+          <View className="flex flex-row w-full px-8 justify-between">
+            <View className="flex items-center justify-center">
+              <AntDesign name="heart" size={96} color="pink" />
+              <Text fontWeight="bold" mt={-62}>
+                {Math.min(Math.max(health, 0), 100)} %
+              </Text>
+            </View>
+            <WaterLevel />
+          </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 
@@ -165,7 +177,7 @@ export const useLocalStorage = (
   initialValue: any
 ) => {
   const client = useQueryClient();
-  const { data } = useQuery({
+  const { data, isSuccess } = useQuery({
     queryKey: [key],
     queryFn: async () => {
       const current = await AsyncStorage.getItem(key);
@@ -185,5 +197,5 @@ export const useLocalStorage = (
     },
   });
 
-  return { data, mutate };
+  return { data, mutate, isSuccess };
 };
