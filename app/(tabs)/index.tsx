@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'expo-router';
 import { SafeAreaView, View, TouchableOpacity } from 'react-native';
 import * as Svg from 'react-native-svg';
-import { Image, Stack, Text } from 'tamagui';
+import { Image, Stack, Text, ZStack } from 'tamagui';
 
 const waterReduction = (weight: number) => {
   const max = weight * 35;
@@ -14,20 +14,30 @@ const waterReduction = (weight: number) => {
 };
 
 const IMAGES = {
-  girl: {
+  female: {
     happy: require('../../assets/images/girl/girl-happy.jpeg'),
     sad: require('../../assets/images/girl/girl-sad.jpeg'),
     medium: require('../../assets/images/girl/girl-medium.jpeg'),
   },
-  boy: {
+  male: {
     happy: require('../../assets/images/boy/boy-happy.jpeg'),
     sad: require('../../assets/images/boy/boy-sad.jpeg'),
     medium: require('../../assets/images/boy/boy-medium.jpeg'),
   },
 };
 
+const getImage = (gender: 'female' | 'male', health: number) => {
+  if (health > 80) {
+    return IMAGES[gender].happy;
+  } else if (health > 50) {
+    return IMAGES[gender].medium;
+  } else return IMAGES[gender].sad;
+};
+
 export default function TabOneScreen() {
   const { data } = useLocalStorage('account', null);
+  const { data: level } = useLocalStorage('exp', 0);
+  const { data: health } = useLocalStorage('health', 100);
   const gender = data?.gender === 'male' ? 'boy' : 'girl';
 
   return (
@@ -37,14 +47,25 @@ export default function TabOneScreen() {
           <Link href="/profile">
             <AntDesign name="user" size={24} color="black" />
           </Link>
-          <Text>50</Text>
+          <Text fontSize="$10" fontWeight="$8">
+            {level}
+          </Text>
           <Link href="/settings">
             <AntDesign name="setting" size={24} color="black" />
           </Link>
         </View>
-        <Image width={300} height={500} source={IMAGES[gender]['sad']} />
+        <Image
+          width={300}
+          height={500}
+          source={getImage(data.gender, health)}
+        />
         <View className="flex flex-row w-full px-8 justify-between">
-          <AntDesign name="heart" size={96} color="pink" />
+          <View className="flex items-center justify-center">
+            <AntDesign name="heart" size={96} color="pink" />
+            <Text fontWeight="bold" mt={-62}>
+              {Math.min(Math.max(health, 0), 100)} %
+            </Text>
+          </View>
           <WaterLevel />
         </View>
       </View>
@@ -79,15 +100,24 @@ const WaterLevel = () => {
   });
   const { data: account } = useLocalStorage('account', null);
   const client = useQueryClient();
+  const { mutate: setHealth, data: health } = useLocalStorage('health', 100);
+  const { mutate: setXP, data: xp } = useLocalStorage('exp', 0);
   const { mutate } = useMutation({
     mutationFn: async () => {
       const tmp = JSON.parse((await AsyncStorage.getItem('waterLevel'))!);
       await client.invalidateQueries({ exact: true, queryKey: ['waterLevel'] });
+      const newLevel =
+        tmp.level - tmp.level / waterReduction(account?.weight ?? 88);
+      if (newLevel < 40) {
+        setXP(xp + 80);
+        setHealth(health + 1);
+        return;
+      }
       return AsyncStorage.setItem(
         'waterLevel',
         JSON.stringify({
           ...tmp,
-          level: tmp.level - tmp.level / waterReduction(account?.weight ?? 88),
+          level: newLevel,
         })
       );
     },
