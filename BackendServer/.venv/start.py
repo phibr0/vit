@@ -139,10 +139,9 @@ def friends():
 def flist():
     if request.method == 'POST':
         if isToken(request.form['username'], request.form['token']):
-            print(json.loads(open("user"+getUUID(request.form['username'])+".json",'r').read())['friends'])
             return json.loads(open("user"+getUUID(request.form['username'])+".json",'r').read())['friends'], 200
         else:
-            return "token invalid", 402
+            return "token invalid", 401
     else:
         return "method should be POST", 405
 
