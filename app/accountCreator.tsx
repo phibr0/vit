@@ -54,24 +54,37 @@ function Signin() {
           <Text>Ein Fehler ist aufgetreten</Text>
         </View>
       )}
-      <Text>Benutzername</Text>
       <TextInput
         placeholder="Benutzername"
+        placeholderTextColor={'#000000'}
         value={name}
         onChangeText={setName}
       />
 
-      <Text>Passwort</Text>
       <TextInput
         placeholder="Passwort"
+        placeholderTextColor={'#000000'}
         value={password}
         onChangeText={setPassword}
       />
-
       <Button title="Einloggen" onPress={onSignIn} />
     </View>
   );
 }
+
+const funktion = async (currentHealth: number, level: number) => {
+  const day = new Date().getDay() + 1;
+  let days = 7;
+  let healthscore = 0;
+  let weeklyHealth = currentHealth;
+  let counter = 0;
+  0 - 100;
+  if (currentHealth >= weeklyHealth) {
+    healthscore =
+      (healthscore + (100 + weeklyHealth) / 100) * Math.pow(1.3, days);
+  } else {
+  }
+};
 
 function Signup() {
   const [name, setName] = useState('');
@@ -180,19 +193,19 @@ function Signup() {
         )}
 
         <View>
-          <Text>Benutzername</Text>
           <TextInput
             placeholder="Benutzername"
+            placeholderTextColor={'#000000'}
             value={name}
             onChangeText={setName}
           />
         </View>
 
         <View>
-          <Text>Passwort</Text>
           <TextInput
             placeholder="Passwort"
             value={password}
+            placeholderTextColor={'#000000'}
             onChangeText={setPassword}
           />
         </View>

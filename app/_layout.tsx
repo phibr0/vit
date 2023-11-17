@@ -8,11 +8,20 @@ import { SplashScreen, Stack, router } from 'expo-router';
 import { useEffect } from 'react';
 import '../global.css';
 
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
 import { TamaguiProvider } from 'tamagui';
 
 import config from '../tamagui.config';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000,
+      gcTime: 100000000,
+    },
+  },
+});
 
 export { ErrorBoundary } from 'expo-router';
 

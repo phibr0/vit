@@ -5,35 +5,35 @@ import { H1, ScrollView } from 'tamagui';
 
 const data = [
   {
-    name: "John",
+    name: 'John',
     score: 2200,
   },
   {
-    name: "Alice",
+    name: 'Alice',
     rank: 2,
     score: 2000,
   },
   {
-    name: "Kevin",
+    name: 'Kevin',
     score: 1900,
   },
   {
-    name: "Marvin",
+    name: 'Marvin',
     score: 1200,
   },
   {
-    name: "Peter",
+    name: 'Peter',
     score: 1300,
   },
   {
-    name: "Günther",
+    name: 'Günther',
     score: 1800,
   },
 ];
 
 export default function TabOneScreen() {
   return (
-    <ImageBackground source={require("./leaderboard.png")}>
+    <ImageBackground source={require('./leaderboard.png')}>
       <SafeAreaView className="h-full">
         <ScrollView className="h-full">
           <H1 mt="$4" textAlign="center">
@@ -52,7 +52,7 @@ export default function TabOneScreen() {
                         </DataTable.Cell>
                       </View>
 
-                      <View className="bg-[#F5D1C1] flex flex-row w-72 h-20 mr-14 shadow-xl  rounded-2xl">
+                      <View className="bg-[#F5D1C1] flex flex-row w-64 ml-6 h-20 mr-14 shadow-xl  rounded-2xl">
                         <DataTable.Cell className="flex justify-center items-center rounded-2xl">
                           {user.name}
                         </DataTable.Cell>

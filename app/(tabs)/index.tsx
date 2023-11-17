@@ -2,6 +2,7 @@ import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'expo-router';
+import { useState } from 'react';
 import {
   ImageBackground,
   SafeAreaView,
@@ -117,20 +118,21 @@ const WaterLevel = () => {
     },
   });
   const { data: account } = useLocalStorage('account', null);
+  const [didIncreaseXP, setDidIncreaseXP] = useState(false);
   const client = useQueryClient();
   const { mutate: setHealth, data: health } = useLocalStorage('health', 100);
   const { mutate: setXP, data: xp } = useLocalStorage('exp', 0);
   const { mutate } = useMutation({
     mutationFn: async () => {
       const tmp = JSON.parse((await AsyncStorage.getItem('waterLevel'))!);
-      if (tmp.level - 3 < 40) {
-        return;
-      }
       const waterHeight =
         tmp.level - tmp.level / waterReduction(account?.weight ?? 88);
-      if (waterHeight < 40) {
-        setXP(xp + 10);
-        setHealth(health + 1);
+      if (waterHeight < 41) {
+        if (!didIncreaseXP) {
+          setDidIncreaseXP(true);
+          setXP(xp + 10);
+          setHealth(health + 1);
+        }
         return;
       }
       AsyncStorage.setItem(
@@ -155,6 +157,7 @@ const WaterLevel = () => {
       <TouchableOpacity
         onPress={() => mutate()}
         onLongPress={async () => {
+          setDidIncreaseXP(false);
           await AsyncStorage.setItem(
             'waterLevel',
             JSON.stringify({

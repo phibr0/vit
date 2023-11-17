@@ -78,18 +78,18 @@ export default function ModalScreen() {
   if (!data) return <Text>Loading</Text>;
 
   return (
-    <ImageBackground source={require("./(tabs)/leaderboard.png")}>
+    <ImageBackground source={require('./(tabs)/leaderboard.png')}>
       <View className="h-screen w-screen">
         <View className="flex flex-row justify-between mt-4">
-          <TouchableOpacity onPress={() => setStatus("profile")}>
+          <TouchableOpacity onPress={() => setStatus('profile')}>
             <Text className="text-xl ml-4">Profile</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setStatus("friends")}>
+          <TouchableOpacity onPress={() => setStatus('friends')}>
             <Text className="text-xl mr-4">Friends</Text>
           </TouchableOpacity>
         </View>
 
-        {status === "profile" ? (
+        {status === 'profile' ? (
           <View className="flex justify-center items-center">
             <View className="w-80 h-80 bg-white/80 rounded-2xl shadow-xl flex flex-col justify-center items-center mt-14">
               <View>
@@ -166,7 +166,7 @@ export default function ModalScreen() {
           </View>
         )}
 
-        <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
+        <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
       </View>
     </ImageBackground>
   );
