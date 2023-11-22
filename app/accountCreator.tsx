@@ -35,7 +35,7 @@ function Signin() {
     formData.append('username', name);
     formData.append('password', password);
     formData.append('key', '1000101');
-    const response = await fetch('http://192.168.127.66:5000/login', {
+    const response = await fetch('http://172.31.47.60:5000/login', {
       method: 'POST',
       body: formData,
     });
@@ -130,7 +130,7 @@ function Signup() {
       data.append('gender', gender);
       data.append('weight', weight.toString());
       data.append('key', '1000101');
-      const response = await fetch('http://192.168.127.66:5000/createAccount', {
+      const response = await fetch('http://172.31.47.60:5000/createAccount', {
         method: 'POST',
         body: data,
       });

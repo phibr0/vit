@@ -19,14 +19,14 @@ export default function ModalScreen() {
       const form = new FormData();
       form.append('username', data.name);
       form.append('password', data.password);
-      const token = await fetch('http://192.168.127.66:5000/login', {
+      const token = await fetch('http://172.31.47.60:5000/login', {
         method: 'POST',
         body: form,
       }).then((res) => res.text());
       const formData = new FormData();
       formData.append('token', token);
       formData.append('username', data.name);
-      const response = await fetch('http://192.168.127.66:5000/friendget', {
+      const response = await fetch('http://172.31.47.60:5000/friendget', {
         method: 'POST',
         body: formData,
       });
@@ -44,7 +44,7 @@ export default function ModalScreen() {
       const form = new FormData();
       form.append('username', data.name);
       form.append('password', data.password);
-      const token = await fetch('http://192.168.127.66:5000/login', {
+      const token = await fetch('http://172.31.47.60:5000/login', {
         method: 'POST',
         body: form,
       }).then((res) => res.text());
@@ -53,7 +53,7 @@ export default function ModalScreen() {
       formData.append('token', token);
       formData.append('username', data.name);
       formData.append('friend', friendname);
-      const response = await fetch('http://192.168.127.66:5000/friendset', {
+      const response = await fetch('http://172.31.47.60:5000/friendset', {
         body: formData,
         method: 'POST',
       }).then((res) => res.text());
